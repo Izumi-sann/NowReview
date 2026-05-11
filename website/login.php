@@ -1,91 +1,75 @@
 <?php
-    if ($_SERVER["REQUEST_METHOD"] !== "POST"){
-        header("Location=login.html");
-        exit;
-    }
-    
+if ($_SERVER["REQUEST_METHOD"] !== "POST"){
+    header("Location=register.html");
+    exit;
+}
+
+//1. inizializzazione ACID
+//2. verifica presenza email
+//3. verifica password
+//4. inizia sessione
+//5. commit
+
+try{
+    $email = $_POST["email"];
+    $unencoded_password = $_POST["password"];
+
+    if ($email == "" || $unencoded_password == "")
+        throw new ErrorException("i dati inseriti non sono validi!");
+
     require "config.php";
+    require "functions.php";
 
-    try{
-        $email = $_POST["input_email"] ?? "";
-        $unencoded_password = $_POST["input_password"] ?? "";
-        $nome = $_POST["nome"] ?? "";
-        $cognome = $_POST["cognome"] ?? "";
-        $username = $_POST["cognome"] ?? "";
+    $pdo -> exec("SET AUTOCOMMIT = 0");
+    $pdo -> exec("BEGIN WORK");
 
-        //vertifica esistenza dati
-        if ($email == "" || $unencoded_password == "" || $nome=="" || $cognome == "" || $username == "")
+    if (!checkemail($email, 1))
             throw new ErrorException("i dati inseriti non sono validi!");
+    
+    
+}
+catch(PDOException $pdo_e){
+    $pdo->exec("ROLLBACK WORK");
+    echo "si è verificato un errore nella procedura di login. riprovare.";
+    header("Location: register.html");
+    exit;
+}
+catch(ErrorException $err){ //qualsiasi situazione di eccezione lanciata manualmente converge qui
+    echo $err->getMessage();
+    header("Location: register.html");
+    exit;
+}
 
-        //1. imposizione ACID
-        //2. ricerca email in db
-        //3. hash password
-        //4. creazione account
-        //5. redirect pagina index.html
+function getuserdata(string $email) : array{
 
-        $pdo -> exec("SET AUTOCOMMIT = 0");
-        $pdo -> exec("SET SESSION idle_transaction_timeout = 0");
-        $pdo -> exec("BEGIN WORK");
-        $pdo -> exec("LOCK TABLES utente WRITE, READ");
-        $pdo -> exec("LOCK TABLES credenziali WRITE, READ");
-        
+}
 
-        if (!checkemail($email))
-            throw new ErrorException("i dati inseriti non sono validi!");
+function get_credenziali(string $email) : array{
+    global $pdo;
+    $query = "SELECT UID, hash_password FROM credenziali WHERE email = :em";
+    $stm = $pdo->prepare($query);
+    $stm->bindParam(":em", $email);
+    if($stm->execute())
+        return $stm->fetch();
+    else throw new ErrorException("email o password sbagliata!");
+}
 
-        $password_hash = password_hash($unencoded_password, PASSWORD_BCRYPT);
-        createuser($email, $password_hash, $nome, $cognome, $username);
+function checkuser(string $email, string $unencoded_password) : bool{
 
-        $pdo->exec("COMMIT WORK");
-    }
-    catch(PDOException $pdo_e){
-        $pdo->exec("ROLLBACK WORK");
-        echo "si è verificato un errore nella procedura di login. riprovare.";
-        header("Location=login.html");
-        exit;
-    }
-    catch(ErrorException $err){ //qualsiasi situazione di eccezione lanciata manualmente converge qui
-        echo $err->getMessage();
-        header("Location=login.html");
-        exit;
-    }
-    finally{
-        $pdo->exec("UNLOCK TABLES");
-        $pdo -> exec("UNLOCK TABLES utente WRITE, READ");
-        $pdo -> exec("UNLOCK TABLES credenziali WRITE, READ");
-    }
+    $credenziali = get_credenziali($email);
 
-    function checkemail(string $email){
-        global $pdo;
+    if (!password_verify($unencoded_password, $credenziali["password_hash"]))
+        return false;
 
-        $query = "SELECT * FROM credenziali WHERE email = :em";
-        $stm = $pdo->prepare($query);
-        $stm -> bindParam(":em", $email);
-        
-        $stm -> execute();
-        $ris = $stm -> fetchAll();
+    $user_data = getuserdata($email);
 
-        if (empty($ris)) return true;
-        else return false;     
-    }
+    session_start();
+    $_SESSION["nome"] = $user_data["nome"];
+    $_SESSION["cognome"] = $user_data["cognome"];
+    $_SESSION["username"] = $user_data["username"];
+    $_SESSION["email"] = $user_data["email"];
+    //$_SESSION["last_activity"] = time();  maybe later TODO   
+}
 
-    function createuser($email, $password_hash, $nome, $cognome, $username){
-        global $pdo;
 
-        $query = "INSERT INTO utente (username, nome, cognome) VALUES (:username, :nome, :cognome)";
-        $stm = $pdo->prepare($query);
-        $stm -> bindParam(":username", $username);
-        $stm -> bindParam(":nome", $nome);
-        $stm -> bindParam(":cognome", $cognome);
-        $stm -> execute();
-
-        $UID = $pdo->lastInsertId();
-
-        $query = "INSERT INTO credenziali (UID, email, password_hash) VALUES (:UID, :email, :hash_pass)";
-        $stm = $pdo->prepare($query);
-        $stm -> bindParam(":UID", $UID);
-        $stm -> bindParam(":email", $email);
-        $stm -> bindParam(":hash_pass", $password_hash);
-        $stm -> execute();
-    }
 ?>
