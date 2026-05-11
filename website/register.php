@@ -39,7 +39,7 @@
 
         $pdo->exec("COMMIT WORK");
 
-        header("Location: index.html");
+        header("Location: login.html");
         exit;
     }
     catch(PDOException $pdo_e){
