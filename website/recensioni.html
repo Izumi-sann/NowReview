@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>NowReview - Recensioni</title>
+    <link rel="stylesheet" href="stile.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" target="_blank">Home</a>
+        <a href="login.html" target="_blank">Login</a>
+        <a href="profilo.html" target="_blank">Profilo</a>
+        <a href="recensioni.html" target="_blank">Recensioni</a>
+        <a href="forum.html" target="_blank">Forum</a>
+    </nav>
+
+    <div class="contenuto">
+        <img src="logo.png" class="logo">
+
+        <h2>Scrivi una recensione</h2>
+
+        <label>Prodotto</label>
+        <select id="prodotto">
+            <option value="1">Raspberry Pi 5</option>
+            <option value="2">Logitech G Pro X</option>
+            <option value="3">Samsung SSD 990 Pro</option>
+            <option value="4">Keychron K2</option>
+        </select>
+
+        <label>Recensione</label>
+        <textarea id="testo-recensione"></textarea>
+
+        <label>Link prodotto (opzionale)</label>
+        <input type="url" id="collegamento-prodotto" placeholder="https://...">
+
+        <button onclick="aggiungiRecensione()">Pubblica</button>
+        <p id="messaggio-recensione"></p>
+
+        <hr>
+
+        <h2>Recensioni degli utenti</h2>
+        <div id="lista-recensioni"></div>
+    </div>
+
+    <script src="autenticazione.js"></script>
+    <script src="recensioni.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>NowReview - Forum</title>
+    <link rel="stylesheet" href="stile.css">
+</head>
+<body>
+
+    <nav>
+        <a href="home.html" target="_blank">Home</a>
+        <a href="login.html" target="_blank">Login</a>
+        <a href="profilo.html" target="_blank">Profilo</a>
+        <a href="recensioni.html" target="_blank">Recensioni</a>
+        <a href="forum.html" target="_blank">Forum</a>
+    </nav>
+
+    <div class="contenuto">
+        <img src="logo.png" class="logo">
+
+        <h2>Fai una domanda</h2>
+
+        <label>Titolo domanda</label>
+        <input type="text" id="titolo-domanda">
+
+        <label>Testo domanda</label>
+        <textarea id="testo-domanda"></textarea>
+
+        <button onclick="aggiungiDomanda()">Invia domanda</button>
+        <p id="messaggio-domanda"></p>
+
+        <hr>
+
+        <h2>Domande degli utenti</h2>
+        <div id="lista-domande"></div>
+
+    </div>
+
+    <script src="autenticazione.js"></script>
+    <script src="forum.js"></script>
+
+</body>
+</html>
