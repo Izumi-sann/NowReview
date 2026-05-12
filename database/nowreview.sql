@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 12, 2026 alle 19:32
+-- Creato il: Mag 12, 2026 alle 20:48
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -73,7 +73,7 @@ INSERT INTO `domanda` (`id_interazione`, `titolo`, `testo`, `id_prodotto`) VALUE
 
 CREATE TABLE `interazione` (
   `id_interazione` int(11) NOT NULL,
-  `UID` int(11) NOT NULL,
+  `UID` int(11) DEFAULT NULL,
   `data` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -86,6 +86,7 @@ INSERT INTO `interazione` (`id_interazione`, `UID`, `data`) VALUES
 (9, 26, '2026-05-01'),
 (10, 27, '2026-05-02'),
 (11, 28, '2026-05-02'),
+(12, 25, '2026-05-03'),
 (13, 26, '2026-05-03'),
 (14, 27, '2026-05-04');
 
@@ -97,22 +98,9 @@ INSERT INTO `interazione` (`id_interazione`, `UID`, `data`) VALUES
 
 CREATE TABLE `like` (
   `id_interazione` int(11) NOT NULL,
-  `UID` int(11) NOT NULL,
+  `UID` int(11) DEFAULT NULL,
   `data` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dump dei dati per la tabella `like`
---
-
-INSERT INTO `like` (`id_interazione`, `UID`, `data`) VALUES
-(8, 26, '2026-05-02'),
-(8, 27, '2026-05-02'),
-(9, 25, '2026-05-02'),
-(10, 28, '2026-05-03'),
-(13, 25, '2026-05-04'),
-(14, 26, '2026-05-04'),
-(14, 27, '2026-05-04');
 
 -- --------------------------------------------------------
 
@@ -175,7 +163,8 @@ CREATE TABLE `risposta` (
 --
 
 INSERT INTO `risposta` (`id_interazione`, `testo`, `id_domanda`) VALUES
-(9, 'Sì, conviene usare una ventola o un dissipatore.', 8);
+(9, 'Sì, conviene usare una ventola o un dissipatore.', 8),
+(12, 'La uso ogni giorno e mi trovo molto bene.', 11);
 
 -- --------------------------------------------------------
 
@@ -199,7 +188,7 @@ INSERT INTO `utente` (`UID`, `username`, `nome`, `cognome`) VALUES
 (26, 'luca_dev', 'Luca', 'Rossi'),
 (27, 'anna99', 'Anna', 'Bianchi'),
 (28, 'techguy', 'Marco', 'Verdi'),
-(29, 'Izumi_dono', 'ALESSANDRO', 'GAMBA');
+(29, 'izumi_dono', 'Alessandro', 'Gamba');
 
 --
 -- Indici per le tabelle scaricate
@@ -230,8 +219,8 @@ ALTER TABLE `interazione`
 -- Indici per le tabelle `like`
 --
 ALTER TABLE `like`
-  ADD PRIMARY KEY (`id_interazione`,`UID`),
-  ADD KEY `like_ibfk_2` (`UID`);
+  ADD PRIMARY KEY (`id_interazione`),
+  ADD KEY `fk2_utente` (`UID`);
 
 --
 -- Indici per le tabelle `prodotto`
@@ -268,7 +257,7 @@ ALTER TABLE `utente`
 -- AUTO_INCREMENT per la tabella `interazione`
 --
 ALTER TABLE `interazione`
-  MODIFY `id_interazione` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_interazione` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT per la tabella `prodotto`
@@ -280,7 +269,7 @@ ALTER TABLE `prodotto`
 -- AUTO_INCREMENT per la tabella `utente`
 --
 ALTER TABLE `utente`
-  MODIFY `UID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `UID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Limiti per le tabelle scaricate
@@ -303,14 +292,14 @@ ALTER TABLE `domanda`
 -- Limiti per la tabella `interazione`
 --
 ALTER TABLE `interazione`
-  ADD CONSTRAINT `fk1_utente` FOREIGN KEY (`UID`) REFERENCES `utente` (`UID`) ON DELETE NO ACTION;
+  ADD CONSTRAINT `fk1_utente` FOREIGN KEY (`UID`) REFERENCES `utente` (`UID`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `like`
 --
 ALTER TABLE `like`
-  ADD CONSTRAINT `like_ibfk_1` FOREIGN KEY (`id_interazione`) REFERENCES `interazione` (`id_interazione`) ON DELETE CASCADE,
-  ADD CONSTRAINT `like_ibfk_2` FOREIGN KEY (`UID`) REFERENCES `utente` (`UID`) ON DELETE NO ACTION;
+  ADD CONSTRAINT `fk2_utente` FOREIGN KEY (`UID`) REFERENCES `utente` (`UID`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `like_ibfk_1` FOREIGN KEY (`id_interazione`) REFERENCES `interazione` (`id_interazione`) ON DELETE CASCADE;
 
 --
 -- Limiti per la tabella `recensione`
@@ -327,6 +316,11 @@ ALTER TABLE `risposta`
   ADD CONSTRAINT `risposta_ibfk_1` FOREIGN KEY (`id_interazione`) REFERENCES `interazione` (`id_interazione`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
+GRANT USAGE ON *.* TO `webapp_user`@`%` IDENTIFIED BY PASSWORD 'password';
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON `nowreview`.* TO `webapp_user`@`%`;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON `ecommerce_forum`.* TO `webapp_user`@`%`;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
