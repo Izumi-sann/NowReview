@@ -48,7 +48,7 @@ Sviluppo di:
 - XAMPP
 - MYSQL
 - APACHE
-- GITHUB
+- GIT e GITHUB
 
 ---
 
