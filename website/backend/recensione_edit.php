@@ -18,7 +18,7 @@ try{
     $id = $_POST["id_interazione"] ?? null;
     $testo = trim($_POST["testo"] ?? "");
     $id_prodotto = $_POST["id_prodotto"] ?? null;
-    $link = trim($_POST["link_prodotto"] ?? "");
+    $link = null; //per motivi di tempo il link non verrà usato
     $uid = $_SESSION["uid"];
 
     if ($id === null || $testo === "" || $id_prodotto === null){
