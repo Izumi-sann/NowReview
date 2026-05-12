@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>NowReview - Risposte</title>
+    <link rel="stylesheet" href="stile.css">
+</head>
+<body>
+
+    <nav>
+        <a href="home.html" target="_blank">Home</a>
+        <a href="login.html" target="_blank">Login</a>
+        <a href="profilo.html" target="_blank">Profilo</a>
+        <a href="recensioni.html" target="_blank">Recensioni</a>
+        <a href="forum.html" target="_blank">Forum</a>
+    </nav>
+
+    <div class="contenuto">
+        <img src="logo.png" class="logo">
+
+        <h2>Domanda</h2>
+
+
+        <div class="box">
+            <p>Caricamento domanda...</p>
+        </div>
+
+        <hr>
+
+        <h2>Risposte</h2>
+
+
+        <p>Nessuna risposta ancora.</p>
+
+        <hr>
+
+        <h2>Scrivi una risposta</h2>
+
+        <form action="api/nuova_risposta.php" method="POST">
+
+
+            <label>La tua risposta</label>
+            <textarea name="testo" rows="5"></textarea>
+
+            <button type="submit">Invia risposta</button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

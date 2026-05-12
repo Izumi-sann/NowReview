@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>NowReview - Login</title>
+    <link rel="stylesheet" href="stile.css">
+</head>
+<body>
+
+    <nav>
+        <a href="home.html" target="_blank">Home</a>
+        <a href="login.html" target="_blank">Login</a>
+        <a href="profilo.html" target="_blank">Profilo</a>
+        <a href="recensioni.html" target="_blank">Recensioni</a>
+        <a href="forum.html" target="_blank">Forum</a>
+    </nav>
+
+    <div class="contenuto">
+        <img src="logo.png" class="logo">
+
+        <h2>Login</h2>
+
+        <form action="api/login.php" method="POST">
+            <label>Email</label>
+            <input type="email" name="email" required>
+
+            <label>Password</label>
+            <input type="password" name="parola_chiave" required>
+
+            <button type="submit">Accedi</button>
+        </form>
+
+        <hr>
+
+        <h2>Registrazione</h2>
+
+        <form action="api/registrazione.php" method="POST">
+            <label>Nome</label>
+            <input type="text" name="nome" required>
+
+            <label>Cognome</label>
+            <input type="text" name="cognome" required>
+
+            <label>Nome utente</label>
+            <input type="text" name="nomeutente" required>
+
+            <label>Email</label>
+            <input type="email" name="email" required>
+
+            <label>Password</label>
+            <input type="password" name="parola_chiave" required>
+
+            <button type="submit">Registrati</button>
+        </form>
+
+    </div>
+
+</body>
+</html>
