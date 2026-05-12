@@ -162,7 +162,7 @@ Durante lo sviluppo sono stati riscontrati alcuni problemi:
 - aggiornamento dinamico delle recensioni e delle domande
 - organizzazione del codice PHP per il backend
 - gestione del collegamento tra frontend e database
-
+- quando si fa la modifica non viene aggiunto direttamente il prodotto nel menu a tendina
 ---
 
 # Possibili sviluppi futuri
@@ -175,7 +175,7 @@ In futuro il progetto potrebbe essere migliorato con:
 - sistema di ricerca avanzata
 - miglioramento della grafica responsive
 - utilizzo di Node.js per il backend
-
+- il database dispone di un numero limitato di prodotti: in futuro verrà implementata una funzione per permettere all'utente di inserire un link e prendere i dati del prodotto direttamente dal sito web indicato
 ---
 
 # Obiettivo del progetto
