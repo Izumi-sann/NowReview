@@ -2,11 +2,13 @@
 
 ## Descrizione del progetto
 
-NowReview è un sito web dedicato alle recensioni di prodotti tecnologici e alla condivisione di opinioni tra utenti. Il progetto nasce con l’obiettivo di creare una piattaforma semplice e intuitiva dove gli utenti possano confrontarsi su dispositivi e accessori tech come tastiere, SSD, cuffie e altri prodotti informatici.L’interfaccia è stata progettata per essere semplice, chiara e facile da utilizzare anche per utenti con poca esperienza.
+NowReview è un sito web dedicato alle recensioni di prodotti tecnologici e alla condivisione di opinioni tra utenti.  
+Il progetto nasce con l’obiettivo di creare una piattaforma semplice e intuitiva dove gli utenti possano confrontarsi su dispositivi e accessori tech come tastiere, SSD, cuffie e altri prodotti informatici.
 
-
+L’interfaccia è stata progettata per essere semplice, chiara e facile da utilizzare anche per utenti con poca esperienza.
 
 Gli utenti possono:
+
 - registrarsi
 - effettuare il login
 - pubblicare recensioni
@@ -20,23 +22,28 @@ Il progetto è stato realizzato come esercitazione scolastica utilizzando tecnol
 # Componenti del gruppo
 
 ## Frontend
-- IQBAL UMAR
+### IQBAL UMAR
 
 Sviluppo di:
+
 - struttura HTML e CSS delle pagine
 - gestione interfaccia utente e navigazione del sito
-- gestione per l'avvenuto merge tra frontend e backend
-- preparazione delle form per l'invio al backend
-- logo del progetto
+- merge tra frontend e backend
+- preparazione delle form per l’invio al backend
+- realizzazione del logo del progetto
+
+---
 
 ## Backend
-- GAMBA ALESSANDRO
+### GAMBA ALESSANDRO
 
 Sviluppo di:
-- Sviluppo DB
+
+- database MySQL
 - gestione login e registrazione
 - gestione recensioni
 - gestione forum e risposte
+- gestione backend PHP
 
 ---
 
@@ -45,10 +52,10 @@ Sviluppo di:
 - HTML5
 - CSS3
 - PHP
+- MySQL
+- Apache
 - XAMPP
-- MYSQL
-- APACHE
-- GIT e GITHUB
+- GitHub
 
 ---
 
@@ -58,25 +65,28 @@ Sviluppo di:
 Pagina iniziale con introduzione al progetto e logo del sito.
 
 ## Login e registrazione
-Gli utenti possono registrarsi ed effettuare il login tramite form dedicati.
+Gli utenti possono registrarsi ed effettuare il login tramite form dedicate.
 
 ## Profilo utente
-Visualizzazione dell'utente attualmente loggato.
+Visualizzazione dell’utente attualmente loggato.
 
 ## Sistema recensioni
 Gli utenti possono:
+
 - scegliere un prodotto
 - scrivere una recensione
 - visualizzare le recensioni pubblicate
 
 ## Forum
 Gli utenti possono:
+
 - creare domande
 - visualizzare le domande pubblicate
 - rispondere alle domande degli altri utenti
 
 ## Navigazione multipagina
 Ogni sezione del sito possiede un file HTML separato:
+
 - Home
 - Login
 - Profilo
@@ -87,29 +97,80 @@ Ogni sezione del sito possiede un file HTML separato:
 
 # Installazione e avvio del progetto
 
-## 1. Scaricare la cartella ZIP
+## Requisiti
 
-Scaricare il file ZIP contenente il progetto.
+Prima di avviare il progetto è necessario avere installato:
 
-## 2. Estrarre la cartella
+- XAMPP
+- un browser web
+- il file ZIP del progetto
+
+---
+
+## 1. Scaricare il progetto
+
+Scaricare il file ZIP contenente il progetto NowReview.
+
+---
+
+## 2. Estrarre la cartella ZIP
 
 Estrarre il contenuto dello ZIP in una cartella del computer.
 
-## 3. Prendere la cartella "website" ed inserirla nella cartella htdocs di Xampp
+---
 
-una volta inserita la cartella del sito in htdocs rinominarla "nowreview"
+## 3. Inserire il progetto in XAMPP
 
-## 4. Creare un nuovo DB da Phpmyadmin e importare il file SQL nella zip
+Aprire la cartella di installazione di XAMPP e accedere alla cartella:
 
-importare il file nowreview.sql in phpmyadmin creando un nuovo database
+```text
+htdocs
+```
 
-## 5. Avviare Xampp , i servizi apache e Mysql
+Copiare all’interno di `htdocs` la cartella del progetto chiamata:
 
-## 6. Aprire sul browser mediante Xampp la cartella del progetto
+```text
+website
+```
 
-dal browser digitare localhost/nowreview/frontend/home.html
+Rinominare successivamente la cartella in:
 
+```text
+nowreview
+```
 
+---
+
+## 4. Creare il database
+
+Aprire phpMyAdmin dal browser tramite XAMPP.
+
+Creare un nuovo database e importare il file SQL presente nella cartella del progetto:
+
+```text
+nowreview.sql
+```
+
+---
+
+## 5. Avviare Apache e MySQL
+
+Aprire il pannello di controllo di XAMPP ed avviare:
+
+- Apache
+- MySQL
+
+---
+
+## 6. Avviare il sito
+
+Aprire il browser e digitare il seguente indirizzo:
+
+```text
+localhost/nowreview/frontend/home.html
+```
+
+Il sito verrà aperto automaticamente nel browser.
 
 ---
 
@@ -120,6 +181,7 @@ Durante lo sviluppo sono stati riscontrati alcuni problemi:
 - gestione della comunicazione tra pagine HTML separate
 - aggiornamento dinamico delle recensioni e delle domande
 - organizzazione del codice PHP per il backend
+- gestione del collegamento tra frontend e database
 
 ---
 
@@ -129,10 +191,13 @@ In futuro il progetto potrebbe essere migliorato con:
 
 - sistema di votazione recensioni
 - autenticazione più sicura
+- immagini profilo per gli utenti
+- sistema di ricerca avanzata
+- miglioramento della grafica responsive
 - utilizzo di Node.js per il backend
 
 ---
 
 # Obiettivo del progetto
 
-L'obiettivo del progetto era realizzare un semplice sito web dinamico utilizzando HTML, CSS e JavaScript, simulando una piattaforma di recensioni e discussione online.
+L’obiettivo del progetto era realizzare un semplice sito web dinamico utilizzando HTML, CSS, PHP e MySQL, simulando una piattaforma online di recensioni e discussione tra utenti.
