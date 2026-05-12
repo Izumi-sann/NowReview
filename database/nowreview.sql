@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 08, 2026 alle 22:49
+-- Creato il: Mag 12, 2026 alle 20:48
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -28,7 +28,6 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `credenziali` (
-  `id_credenziali` int(11) NOT NULL,
   `UID` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password_hash` varchar(255) NOT NULL
@@ -38,9 +37,12 @@ CREATE TABLE `credenziali` (
 -- Dump dei dati per la tabella `credenziali`
 --
 
-INSERT INTO `credenziali` (`id_credenziali`, `UID`, `email`, `password_hash`) VALUES
-(3, 3, 'anna@mail.com', 'hash_003'),
-(4, 4, 'marco@mail.com', 'hash_004');
+INSERT INTO `credenziali` (`UID`, `email`, `password_hash`) VALUES
+(25, 'mohid@mail.com', 'hash_001'),
+(26, 'luca@mail.com', 'hash_002'),
+(27, 'anna@mail.com', 'hash_003'),
+(28, 'marco@mail.com', 'hash_004'),
+(29, 'gambale@gmail.com', '$2y$10$qE6VHuBXJeytzQrst8VwYOj/QBm7o4Tg8BLCli1KnVxbpLRv2xBM.');
 
 -- --------------------------------------------------------
 
@@ -60,7 +62,8 @@ CREATE TABLE `domanda` (
 --
 
 INSERT INTO `domanda` (`id_interazione`, `titolo`, `testo`, `id_prodotto`) VALUES
-(4, 'La Keychron K2 è buona per programmare?', 'Cerco una tastiera meccanica per coding.', 4);
+(8, 'Il Raspberry Pi 5 scalda molto?', 'Vorrei usarlo come piccolo server casalingo.', 1),
+(11, 'La Keychron K2 è buona per programmare?', 'Cerco una tastiera meccanica per coding.', 4);
 
 -- --------------------------------------------------------
 
@@ -70,7 +73,7 @@ INSERT INTO `domanda` (`id_interazione`, `titolo`, `testo`, `id_prodotto`) VALUE
 
 CREATE TABLE `interazione` (
   `id_interazione` int(11) NOT NULL,
-  `UID` int(11) NOT NULL,
+  `UID` int(11) DEFAULT NULL,
   `data` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -79,9 +82,13 @@ CREATE TABLE `interazione` (
 --
 
 INSERT INTO `interazione` (`id_interazione`, `UID`, `data`) VALUES
-(3, 3, '2026-05-02'),
-(4, 4, '2026-05-02'),
-(7, 3, '2026-05-04');
+(8, 25, '2026-05-01'),
+(9, 26, '2026-05-01'),
+(10, 27, '2026-05-02'),
+(11, 28, '2026-05-02'),
+(12, 25, '2026-05-03'),
+(13, 26, '2026-05-03'),
+(14, 27, '2026-05-04');
 
 -- --------------------------------------------------------
 
@@ -91,17 +98,9 @@ INSERT INTO `interazione` (`id_interazione`, `UID`, `data`) VALUES
 
 CREATE TABLE `like` (
   `id_interazione` int(11) NOT NULL,
-  `UID` int(11) NOT NULL,
+  `UID` int(11) DEFAULT NULL,
   `data` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dump dei dati per la tabella `like`
---
-
-INSERT INTO `like` (`id_interazione`, `UID`, `data`) VALUES
-(3, 4, '2026-05-03'),
-(7, 3, '2026-05-04');
 
 -- --------------------------------------------------------
 
@@ -143,8 +142,9 @@ CREATE TABLE `recensione` (
 --
 
 INSERT INTO `recensione` (`id_interazione`, `testo`, `id_prodotto`, `link_prodotto`) VALUES
-(3, 'SSD velocissimo e ottimo per gaming.', 3, 'https://amazon.it/samsung-990pro'),
-(7, 'Ottima tastiera, switch molto piacevoli.', 4, 'https://keychron.com/k2');
+(10, 'SSD velocissimo e ottimo per gaming.', 3, 'https://amazon.it/samsung-990pro'),
+(13, 'Audio molto buono ma microfono migliorabile.', 2, 'https://amazon.it/logitech-gprox'),
+(14, 'Ottima tastiera, switch molto piacevoli.', 4, 'https://keychron.com/k2');
 
 -- --------------------------------------------------------
 
@@ -154,9 +154,17 @@ INSERT INTO `recensione` (`id_interazione`, `testo`, `id_prodotto`, `link_prodot
 
 CREATE TABLE `risposta` (
   `id_interazione` int(11) NOT NULL,
-  `id_domanda` int(11) NOT NULL,
-  `testo` text NOT NULL
+  `testo` text NOT NULL,
+  `id_domanda` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `risposta`
+--
+
+INSERT INTO `risposta` (`id_interazione`, `testo`, `id_domanda`) VALUES
+(9, 'Sì, conviene usare una ventola o un dissipatore.', 8),
+(12, 'La uso ogni giorno e mi trovo molto bene.', 11);
 
 -- --------------------------------------------------------
 
@@ -176,8 +184,11 @@ CREATE TABLE `utente` (
 --
 
 INSERT INTO `utente` (`UID`, `username`, `nome`, `cognome`) VALUES
-(3, 'anna99', 'Anna', 'Bianchi'),
-(4, 'techguy', 'Marco', 'Verdi');
+(25, 'mohid01', 'Mohid', 'Khan'),
+(26, 'luca_dev', 'Luca', 'Rossi'),
+(27, 'anna99', 'Anna', 'Bianchi'),
+(28, 'techguy', 'Marco', 'Verdi'),
+(29, 'izumi_dono', 'Alessandro', 'Gamba');
 
 --
 -- Indici per le tabelle scaricate
@@ -187,9 +198,8 @@ INSERT INTO `utente` (`UID`, `username`, `nome`, `cognome`) VALUES
 -- Indici per le tabelle `credenziali`
 --
 ALTER TABLE `credenziali`
-  ADD PRIMARY KEY (`id_credenziali`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `UID` (`UID`);
+  ADD PRIMARY KEY (`UID`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indici per le tabelle `domanda`
@@ -203,14 +213,14 @@ ALTER TABLE `domanda`
 --
 ALTER TABLE `interazione`
   ADD PRIMARY KEY (`id_interazione`),
-  ADD KEY `interazione_ibfk_1` (`UID`);
+  ADD KEY `fk1_utente` (`UID`);
 
 --
 -- Indici per le tabelle `like`
 --
 ALTER TABLE `like`
-  ADD PRIMARY KEY (`id_interazione`,`UID`),
-  ADD KEY `like_ibfk_2` (`UID`);
+  ADD PRIMARY KEY (`id_interazione`),
+  ADD KEY `fk2_utente` (`UID`);
 
 --
 -- Indici per le tabelle `prodotto`
@@ -230,7 +240,7 @@ ALTER TABLE `recensione`
 --
 ALTER TABLE `risposta`
   ADD PRIMARY KEY (`id_interazione`),
-  ADD KEY `id_domanda` (`id_domanda`);
+  ADD KEY `fk_risposta_domanda` (`id_domanda`);
 
 --
 -- Indici per le tabelle `utente`
@@ -244,16 +254,10 @@ ALTER TABLE `utente`
 --
 
 --
--- AUTO_INCREMENT per la tabella `credenziali`
---
-ALTER TABLE `credenziali`
-  MODIFY `id_credenziali` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT per la tabella `interazione`
 --
 ALTER TABLE `interazione`
-  MODIFY `id_interazione` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_interazione` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT per la tabella `prodotto`
@@ -265,7 +269,7 @@ ALTER TABLE `prodotto`
 -- AUTO_INCREMENT per la tabella `utente`
 --
 ALTER TABLE `utente`
-  MODIFY `UID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `UID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Limiti per le tabelle scaricate
@@ -275,7 +279,7 @@ ALTER TABLE `utente`
 -- Limiti per la tabella `credenziali`
 --
 ALTER TABLE `credenziali`
-  ADD CONSTRAINT `credenziali_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `utente` (`UID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk1_UID` FOREIGN KEY (`UID`) REFERENCES `utente` (`UID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `domanda`
@@ -288,14 +292,14 @@ ALTER TABLE `domanda`
 -- Limiti per la tabella `interazione`
 --
 ALTER TABLE `interazione`
-  ADD CONSTRAINT `interazione_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `utente` (`UID`) ON DELETE NO ACTION;
+  ADD CONSTRAINT `fk1_utente` FOREIGN KEY (`UID`) REFERENCES `utente` (`UID`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `like`
 --
 ALTER TABLE `like`
-  ADD CONSTRAINT `like_ibfk_1` FOREIGN KEY (`id_interazione`) REFERENCES `interazione` (`id_interazione`) ON DELETE CASCADE,
-  ADD CONSTRAINT `like_ibfk_2` FOREIGN KEY (`UID`) REFERENCES `utente` (`UID`) ON DELETE NO ACTION;
+  ADD CONSTRAINT `fk2_utente` FOREIGN KEY (`UID`) REFERENCES `utente` (`UID`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `like_ibfk_1` FOREIGN KEY (`id_interazione`) REFERENCES `interazione` (`id_interazione`) ON DELETE CASCADE;
 
 --
 -- Limiti per la tabella `recensione`
@@ -308,27 +312,15 @@ ALTER TABLE `recensione`
 -- Limiti per la tabella `risposta`
 --
 ALTER TABLE `risposta`
-  ADD CONSTRAINT `risposta_ibfk_1` FOREIGN KEY (`id_interazione`) REFERENCES `interazione` (`id_interazione`) ON DELETE CASCADE,
-  ADD CONSTRAINT `risposta_ibfk_2` FOREIGN KEY (`id_domanda`) REFERENCES `domanda` (`id_interazione`) ON DELETE CASCADE;
-
---
--- Limiti per la tabella `utente`
---
-ALTER TABLE `utente`
-  ADD CONSTRAINT `fk1_credenziali` FOREIGN KEY (`UID`) REFERENCES `credenziali` (`UID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_risposta_domanda` FOREIGN KEY (`id_domanda`) REFERENCES `domanda` (`id_interazione`) ON DELETE CASCADE,
+  ADD CONSTRAINT `risposta_ibfk_1` FOREIGN KEY (`id_interazione`) REFERENCES `interazione` (`id_interazione`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
---
--- Creazione utente webapp_user
---
-CREATE USER 'webapp_user'@'%'
-IDENTIFIED BY 'password';
+GRANT USAGE ON *.* TO `webapp_user`@`%` IDENTIFIED BY PASSWORD 'password';
 
-GRANT SELECT, INSERT, UPDATE, DELETE
-ON nowreview.*
-TO 'webapp_user'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON `nowreview`.* TO `webapp_user`@`%`;
 
-FLUSH PRIVILEGES;
+GRANT SELECT, INSERT, UPDATE, DELETE ON `ecommerce_forum`.* TO `webapp_user`@`%`;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
