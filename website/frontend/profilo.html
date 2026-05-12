@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>NowReview - Forum</title>
+    <title>NowReview - Profilo</title>
     <link rel="stylesheet" href="stile.css">
 </head>
 <body>
@@ -18,26 +18,19 @@
     <div class="contenuto">
         <img src="logo.png" class="logo">
 
-        <h2>Fai una domanda</h2>
+        <h2>Profilo</h2>
 
-        <label>Titolo domanda</label>
-        <input type="text" id="titolo-domanda">
 
-        <label>Testo domanda</label>
-        <textarea id="testo-domanda"></textarea>
+        <p>Nessun utente loggato. <a href="login.html" target="_blank">Vai al login</a></p>
 
-        <button onclick="aggiungiDomanda()">Invia domanda</button>
-        <p id="messaggio-domanda"></p>
+        <br>
 
-        <hr>
-
-        <h2>Domande degli utenti</h2>
-        <div id="lista-domande"></div>
+        <!-- il PHP mostrerà questo form solo se l'utente è loggato -->
+        <form action="api/logout.php" method="POST">
+            <button type="submit">Esci</button>
+        </form>
 
     </div>
-
-    <script src="autenticazione.js"></script>
-    <script src="forum.js"></script>
 
 </body>
 </html>

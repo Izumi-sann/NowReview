@@ -19,23 +19,34 @@
         <img src="logo.png" class="logo">
 
         <h2>Domanda</h2>
-        <div id="testo-domanda" class="box"></div>
+
+
+        <div class="box">
+            <p>Caricamento domanda...</p>
+        </div>
 
         <hr>
 
         <h2>Risposte</h2>
-        <div id="lista-risposte"></div>
+
+
+        <p>Nessuna risposta ancora.</p>
 
         <hr>
 
         <h2>Scrivi una risposta</h2>
-        <textarea id="testo-risposta"></textarea>
-        <button onclick="aggiungiRisposta()">Invia risposta</button>
-        <p id="messaggio-risposta"></p>
-    </div>
 
-    <script src="autenticazione.js"></script>
-    <script src="risposta.js"></script>
+        <form action="api/nuova_risposta.php" method="POST">
+
+
+            <label>La tua risposta</label>
+            <textarea name="testo" rows="5"></textarea>
+
+            <button type="submit">Invia risposta</button>
+
+        </form>
+
+    </div>
 
 </body>
 </html>
