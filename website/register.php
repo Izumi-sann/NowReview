@@ -5,7 +5,7 @@
     }
     
     require "config.php";
-    require "funcions.php";
+    require "functions.php";
 
     try{
         $email = $_POST["input_email"] ?? "";
@@ -18,17 +18,12 @@
         if ($email == "" || $unencoded_password == "" || $nome=="" || $cognome == "" || $username == "")
             throw new ErrorException("i dati inseriti non sono validi!");
 
-        //1. imposizione ACID
+        //1. apertura transazione
         //2. ricerca email in db
         //3. hash password
         //4. creazione account
-        //5. redirect pagina index.html
-
-        $pdo -> exec("SET AUTOCOMMIT = 0");
-        $pdo -> exec("SET SESSION idle_transaction_timeout = 0");
-        $pdo -> exec("BEGIN WORK");
-        $pdo -> exec("LOCK TABLES utente WRITE, READ");
-        $pdo -> exec("LOCK TABLES credenziali WRITE, READ");
+        //5. commit e redirect
+        $pdo->beginTransaction();
         
 
         if (!checkemail($email, threshold:0))
@@ -37,26 +32,24 @@
         $password_hash = password_hash($unencoded_password, PASSWORD_BCRYPT);
         createuser($email, $password_hash, $nome, $cognome, $username);
 
-        $pdo->exec("COMMIT WORK");
+        $pdo->commit();
 
         header("Location: login.html");
         exit;
     }
     catch(PDOException $pdo_e){
-        $pdo->exec("ROLLBACK WORK");
-        echo "si è verificato un errore nella procedura di login. riprovare.";
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
         header("Location: register.html");
         exit;
     }
     catch(ErrorException $err){ //qualsiasi situazione di eccezione lanciata manualmente converge qui
-        echo $err->getMessage();
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
         header("Location: register.html");
         exit;
-    }
-    finally{
-        $pdo->exec("UNLOCK TABLES");
-        $pdo -> exec("UNLOCK TABLES utente");
-        $pdo -> exec("UNLOCK TABLES credenziali");
     }
 
     function createuser($email, $password_hash, $nome, $cognome, $username){

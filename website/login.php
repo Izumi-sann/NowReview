@@ -11,8 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST"){
 //5. commit
 
 try{
-    $email = $_POST["email"];
-    $unencoded_password = $_POST["password"];
+    $email = $_POST["input_email"];
+    $unencoded_password = $_POST["input_password"];
 
     if ($email == "" || $unencoded_password == "")
         throw new ErrorException("i dati inseriti non sono validi!");
@@ -30,7 +30,7 @@ try{
         throw new ErrorException("email o password errati");
 
     $pdo->exec("COMMIT WORK");
-    header("Location: index.php");    
+    header("Location: index.html");    
 }
 catch(PDOException $pdo_e){
     $pdo->exec("ROLLBACK WORK");
