@@ -107,71 +107,51 @@ Prima di avviare il progetto è necessario avere installato:
 
 ---
 
-## 1. Scaricare il progetto
+## Procedura di installazione
 
-Scaricare il file ZIP contenente il progetto NowReview.
+- Scaricare il file ZIP contenente il progetto NowReview.
 
----
+- Estrarre il contenuto dello ZIP in una cartella del computer.
 
-## 2. Estrarre la cartella ZIP
-
-Estrarre il contenuto dello ZIP in una cartella del computer.
-
----
-
-## 3. Inserire il progetto in XAMPP
-
-Aprire la cartella di installazione di XAMPP e accedere alla cartella:
+- Aprire la cartella di installazione di XAMPP ed entrare nella cartella:
 
 ```text
 htdocs
 ```
 
-Copiare all’interno di `htdocs` la cartella del progetto chiamata:
+- Copiare all’interno di `htdocs` la cartella del progetto chiamata:
 
 ```text
 website
 ```
 
-Rinominare successivamente la cartella in:
+- Rinominare successivamente la cartella in:
 
 ```text
 nowreview
 ```
 
----
+- Aprire phpMyAdmin dal browser tramite XAMPP.
 
-## 4. Creare il database
-
-Aprire phpMyAdmin dal browser tramite XAMPP.
-
-Creare un nuovo database e importare il file SQL presente nella cartella del progetto:
+- Creare un nuovo database ed importare il file SQL presente nella cartella del progetto:
 
 ```text
 nowreview.sql
 ```
 
----
+- Aprire il pannello di controllo di XAMPP ed avviare:
 
-## 5. Avviare Apache e MySQL
+  - Apache
+  - MySQL
 
-Aprire il pannello di controllo di XAMPP ed avviare:
-
-- Apache
-- MySQL
-
----
-
-## 6. Avviare il sito
-
-Aprire il browser e digitare il seguente indirizzo:
+- Aprire il browser e digitare il seguente indirizzo:
 
 ```text
 localhost/nowreview/frontend/home.html
 ```
+Previo utilizzo del sito è necessario registrarsi per poi effettuare il login con le medesime credenziali
 
 Il sito verrà aperto automaticamente nel browser.
-
 ---
 
 # Problemi riscontrati
