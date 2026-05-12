@@ -1,6 +1,6 @@
 <?php
     if ($_SERVER["REQUEST_METHOD"] !== "POST"){
-        header("Location: login.html");
+        header("Location: ../frontend/login.html");
         exit;
     }
     
@@ -34,21 +34,21 @@
 
         $pdo->commit();
 
-        header("Location: login.html");
+        header("Location: ../frontend/login.html");
         exit;
     }
     catch(PDOException $pdo_e){
         if ($pdo->inTransaction()) {
             $pdo->rollBack();
         }
-        header("Location: register.html");
+        header("Location: ../frontend/login.html");
         exit;
     }
     catch(ErrorException $err){ //qualsiasi situazione di eccezione lanciata manualmente converge qui
         if ($pdo->inTransaction()) {
             $pdo->rollBack();
         }
-        header("Location: register.html");
+        header("Location: ../frontend/login.html");
         exit;
     }
 

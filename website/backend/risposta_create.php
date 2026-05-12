@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] !== "POST"){
-    header("Location: risposta.html");
+    header("Location: ../frontend/forum.php");
     exit;
 }
 
@@ -8,7 +8,7 @@ session_start();
 
 if (!isset($_SESSION["uid"])){
     echo "Utente non autenticato";
-    header("Location: login.html");
+    header("Location: ../frontend/login.html");
     exit;
 }
 
@@ -18,8 +18,9 @@ try{
     $uid = $_SESSION["uid"];
     $today = date("Y-m-d");
     $testo = trim($_POST["testo"] ?? "");
+    $id_domanda = $_POST["id_domanda"] ?? null;
 
-    if ($testo === ""){
+    if ($testo === "" || $id_domanda === null){
         throw new ErrorException("Dati mancanti");
     }
 
@@ -28,24 +29,24 @@ try{
     $ins->execute([":uid" => $uid, ":data" => $today]);
     $id = $pdo->lastInsertId();
 
-    $stm = $pdo->prepare("INSERT INTO risposta (id_interazione, testo) VALUES (:id, :testo)");
-    $stm->execute([":id" => $id, ":testo" => $testo]);
+    $stm = $pdo->prepare("INSERT INTO risposta (id_interazione, testo, id_domanda) VALUES (:id, :testo, :id_domanda)");
+    $stm->execute([":id" => $id, ":testo" => $testo, ":id_domanda" => $id_domanda]);
 
     $pdo->commit();
     echo "Risposta creata con successo";
-    header("Location: risposta.html");
+    header("Location: ../frontend/risposta.php?id=" . urlencode($id_domanda));
     exit;
 }
 catch(PDOException $pdo_e){
     if ($pdo->inTransaction()) $pdo->rollBack();
     echo "Errore nel database";
-    header("Location: risposta.html");
+    header("Location: ../frontend/forum.php");
     exit;
 }
 catch(ErrorException $err){
     if ($pdo->inTransaction()) $pdo->rollBack();
     echo $err->getMessage();
-    header("Location: risposta.html");
+    header("Location: ../frontend/forum.php");
     exit;
 }
 

@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] !== "POST"){
-    header("Location: recensione.html");
+    header("Location: ../frontend/recensioni.php");
     exit;
 }
 
@@ -8,7 +8,7 @@ session_start();
 
 if (!isset($_SESSION["uid"])){
     echo "Utente non autenticato";
-    header("Location: login.html");
+    header("Location: ../frontend/login.html");
     exit;
 }
 
@@ -31,7 +31,7 @@ try{
     if (!$row) throw new ErrorException("Interazione non trovata");
     if ((int)$row["UID"] !== (int)$uid){
         echo "Permesso negato";
-        header("Location: recensione.html");
+        header("Location: ../frontend/recensioni.php");
         exit;
     }
 
@@ -39,17 +39,17 @@ try{
     $stm->execute([":testo" => $testo, ":link" => $link, ":idp" => $id_prodotto, ":id" => $id]);
 
     echo "Recensione aggiornata con successo";
-    header("Location: recensione.html");
+    header("Location: ../frontend/recensioni.php");
     exit;
 }
 catch(PDOException $pdo_e){
     echo "Errore nel database";
-    header("Location: recensione.html");
+    header("Location: ../frontend/recensioni.php");
     exit;
 }
 catch(ErrorException $err){
     echo $err->getMessage();
-    header("Location: recensione.html");
+    header("Location: ../frontend/recensioni.php");
     exit;
 }
 

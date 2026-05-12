@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 10, 2026 alle 23:48
+-- Creato il: Mag 12, 2026 alle 19:32
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -41,7 +41,8 @@ INSERT INTO `credenziali` (`UID`, `email`, `password_hash`) VALUES
 (25, 'mohid@mail.com', 'hash_001'),
 (26, 'luca@mail.com', 'hash_002'),
 (27, 'anna@mail.com', 'hash_003'),
-(28, 'marco@mail.com', 'hash_004');
+(28, 'marco@mail.com', 'hash_004'),
+(29, 'gambale@gmail.com', '$2y$10$qE6VHuBXJeytzQrst8VwYOj/QBm7o4Tg8BLCli1KnVxbpLRv2xBM.');
 
 -- --------------------------------------------------------
 
@@ -85,7 +86,6 @@ INSERT INTO `interazione` (`id_interazione`, `UID`, `data`) VALUES
 (9, 26, '2026-05-01'),
 (10, 27, '2026-05-02'),
 (11, 28, '2026-05-02'),
-(12, 25, '2026-05-03'),
 (13, 26, '2026-05-03'),
 (14, 27, '2026-05-04');
 
@@ -166,16 +166,16 @@ INSERT INTO `recensione` (`id_interazione`, `testo`, `id_prodotto`, `link_prodot
 
 CREATE TABLE `risposta` (
   `id_interazione` int(11) NOT NULL,
-  `testo` text NOT NULL
+  `testo` text NOT NULL,
+  `id_domanda` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `risposta`
 --
 
-INSERT INTO `risposta` (`id_interazione`, `testo`) VALUES
-(9, 'Sì, conviene usare una ventola o un dissipatore.'),
-(12, 'La uso ogni giorno e mi trovo molto bene.');
+INSERT INTO `risposta` (`id_interazione`, `testo`, `id_domanda`) VALUES
+(9, 'Sì, conviene usare una ventola o un dissipatore.', 8);
 
 -- --------------------------------------------------------
 
@@ -198,7 +198,8 @@ INSERT INTO `utente` (`UID`, `username`, `nome`, `cognome`) VALUES
 (25, 'mohid01', 'Mohid', 'Khan'),
 (26, 'luca_dev', 'Luca', 'Rossi'),
 (27, 'anna99', 'Anna', 'Bianchi'),
-(28, 'techguy', 'Marco', 'Verdi');
+(28, 'techguy', 'Marco', 'Verdi'),
+(29, 'Izumi_dono', 'ALESSANDRO', 'GAMBA');
 
 --
 -- Indici per le tabelle scaricate
@@ -249,7 +250,8 @@ ALTER TABLE `recensione`
 -- Indici per le tabelle `risposta`
 --
 ALTER TABLE `risposta`
-  ADD PRIMARY KEY (`id_interazione`);
+  ADD PRIMARY KEY (`id_interazione`),
+  ADD KEY `fk_risposta_domanda` (`id_domanda`);
 
 --
 -- Indici per le tabelle `utente`
@@ -278,7 +280,7 @@ ALTER TABLE `prodotto`
 -- AUTO_INCREMENT per la tabella `utente`
 --
 ALTER TABLE `utente`
-  MODIFY `UID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `UID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Limiti per le tabelle scaricate
@@ -321,20 +323,9 @@ ALTER TABLE `recensione`
 -- Limiti per la tabella `risposta`
 --
 ALTER TABLE `risposta`
-  ADD CONSTRAINT `risposta_ibfk_1` FOREIGN KEY (`id_interazione`) REFERENCES `interazione` (`id_interazione`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_risposta_domanda` FOREIGN KEY (`id_domanda`) REFERENCES `domanda` (`id_interazione`) ON DELETE CASCADE,
+  ADD CONSTRAINT `risposta_ibfk_1` FOREIGN KEY (`id_interazione`) REFERENCES `interazione` (`id_interazione`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
-
---
--- Creazione utente webapp_user
---
-CREATE USER 'webapp_user'@'%'
-IDENTIFIED BY 'password';
-
-GRANT SELECT, INSERT, UPDATE, DELETE
-ON nowreview.*
-TO 'webapp_user'@'%';
-
-FLUSH PRIVILEGES;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

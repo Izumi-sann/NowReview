@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] !== "POST"){
-    header("Location: index.html");
+    header("Location: ../frontend/forum.php");
     exit;
 }
 
@@ -8,7 +8,7 @@ session_start();
 
 if (!isset($_SESSION["uid"])){
     echo "Utente non autenticato";
-    header("Location: login.html");
+    header("Location: ../frontend/login.html");
     exit;
 }
 
@@ -22,7 +22,7 @@ try{
     
     if ($posted_uid !== null && (int)$posted_uid !== (int)$uid){
         echo "UID mismatch";
-        header("Location: index.html");
+        header("Location: ../frontend/forum.php");
         exit;
     }
 
@@ -46,17 +46,17 @@ try{
         throw new ErrorException("Azione non valida");
     }
 
-    header("Location: index.html");
+    header("Location: ../frontend/forum.php");
     exit;
 }
 catch(PDOException $e){
     echo "Errore nel database";
-    header("Location: index.html");
+    header("Location: ../frontend/forum.php");
     exit;
 }
 catch(ErrorException $err){
     echo $err->getMessage();
-    header("Location: index.html");
+    header("Location: ../frontend/forum.php");
     exit;
 }
 

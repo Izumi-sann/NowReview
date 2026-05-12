@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] !== "POST"){
-    header("Location: recensione.html");
+    header("Location: ../frontend/recensioni.php");
     exit;
 }
 
@@ -8,7 +8,7 @@ session_start();
 
 if (!isset($_SESSION["uid"])){
     echo "Utente non autenticato";
-    header("Location: login.html");
+    header("Location: ../frontend/login.html");
     exit;
 }
 
@@ -35,19 +35,19 @@ try{
 
     $pdo->commit();
     echo "Recensione creata con successo";
-    header("Location: recensione.html");
+    header("Location: ../frontend/recensioni.php");
     exit;
 }
 catch(PDOException $pdo_e){
     if ($pdo->inTransaction()) $pdo->rollBack();
     echo "Errore nel database";
-    header("Location: recensione.html");
+    header("Location: ../frontend/recensioni.php");
     exit;
 }
 catch(ErrorException $err){
     if ($pdo->inTransaction()) $pdo->rollBack();
     echo $err->getMessage();
-    header("Location: recensione.html");
+    header("Location: ../frontend/recensioni.php");
     exit;
 }
 

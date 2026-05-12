@@ -30,17 +30,17 @@ try{
         throw new ErrorException("email o password errati");
 
     $pdo->exec("COMMIT WORK");
-    header("Location: index.html");    
+    header("Location: ../frontend/forum.php");    
 }
 catch(PDOException $pdo_e){
     $pdo->exec("ROLLBACK WORK");
     echo "si è verificato un errore nella procedura di login. riprovare.";
-    header("Location: login.html");
+    header("Location: ../frontend/login.html");
     exit;
 }
 catch(ErrorException $err){ //qualsiasi situazione di eccezione lanciata manualmente converge qui
     echo $err->getMessage();
-    header("Location: login.html");
+    header("Location: ../frontend/login.html");
     exit;
 }
 
